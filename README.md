@@ -32,7 +32,7 @@ This registers a new task to later be run via task.run. Dependencies are taken c
 ### task.run(name|cb)
 This accepts either the name of a previously registered task or an anonymous function.
 
-## A Not About Not Running `task.configure`
+## A Note About Not Running `task.configure`
 This module was written as a replacement for `gulp.task`. You're still free to use gulp.task directly but those tasks registered via `gulp.task` will not be visible via `task.run`. A usage where you don't run `task.configure gulp` might looks something like:
 ```
 gulp.task 'build', ->
