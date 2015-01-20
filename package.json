@@ -1,0 +1,22 @@
+{
+  "name": "gulp-task-promise",
+  "version": "0.1.0",
+  "description": "A wrapper of gulp.task that enables promise-based dependency management",
+  "main": "bin/index.js",
+  "scripts": {
+    "test": "echo \"Error: Im very sorry for not writing tests. I am ashamed.\" && exit 1"
+  },
+  "keywords": [
+    "gulp",
+    "task",
+    "promise",
+    "dependency",
+    "dependencies"
+  ],
+  "author": "Tim Huff",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^2.8.1",
+    "colors": "^1.0.3"
+  }
+}
