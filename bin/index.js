@@ -75,12 +75,11 @@
   tag = "[" + "task".yellow + "]";
 
   _task.run = function(name) {
-    var promise, startTime, task;
-    promise = null;
+    var startTime, task;
     if (typeof name === "string") {
       task = _tasks[name];
       if (task == null) {
-        promise = Promise.reject(new Error('Task Not Found'));
+        throw new Error("Task Not Found: '" + name + "'");
       }
     } else if (typeof name === "function") {
       task = name;

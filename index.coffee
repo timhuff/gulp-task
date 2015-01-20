@@ -54,13 +54,11 @@ tag = "[#{"task".yellow}]"
 
 #execute a previously registered task
 _task.run = (name)->
-	promise = null
-
 	if typeof name == "string"
 		#lookup registered task
 		task = _tasks[name]
 		if !task?
-			promise = Promise.reject new Error 'Task Not Found'
+			throw new Error "Task Not Found: '#{name}'"
 	#anonymous function support
 	else if typeof name == "function"
 		task = name
