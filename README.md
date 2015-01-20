@@ -1,5 +1,5 @@
 
-# gulp-task-promise
+# gulp-task
 
 ## Preface
 This was written as a wrapper for gulp.task in order to get promise-based dependency management.
@@ -10,10 +10,10 @@ Unfortunately, I don't have time to write tests at the moment.
 
 ## Installation
 ```shell
-npm install --save gulp-task-promise
+npm install --save gulp-task
 ```
 ```coffee
-task = require 'gulp-task-promise'
+task = require 'gulp-task'
 ```
 Optionally, you can configure it to automatically register gulp tasks:
 ```coffee
@@ -104,7 +104,7 @@ task 'build', ->
 ## Semi-Realistic Stream Example
 #### gulpfile.coffee
 ```coffee
-task = require 'gulp-task-promise'
+task = require 'gulp-task'
 gulp = require 'gulp'
 coffee = require 'gulp-coffee'
 jade = require 'gulp-jade'
@@ -140,7 +140,7 @@ task 'compile:jade', ->
 #### Output
 ```console
 $ coffeegulp rebuild
-[gulp] Using gulpfile ~/Documents/GitProjects/gulp-task-promise/gulpfile.coffee
+[gulp] Using gulpfile ~/Documents/GitProjects/gulp-task/gulpfile.coffee
 [gulp] Starting 'rebuild'...
 [task] Running 'rebuild'
 [task] Running 'clean'
@@ -158,7 +158,7 @@ $ coffeegulp rebuild
 ### Hello World
 #### gulpfile.coffee
 ```coffee
-task = require 'gulp-task-promise'
+task = require 'gulp-task'
 gulp = require 'gulp'
 task.configure gulp
 
@@ -171,7 +171,7 @@ task 'hello', ->
 #### Output
 ```console
 $ coffeegulp
-[gulp] Using gulpfile ~/Documents/GitProjects/gulp-task-promise/gulpfile.coffee
+[gulp] Using gulpfile ~/Documents/GitProjects/gulp-task/gulpfile.coffee
 [gulp] Starting 'default'...
 [task] Running 'default'
 [task] Running 'hello'
@@ -184,7 +184,7 @@ Hello World!
 ### Basic Stream
 #### gulpfile.coffee
 ```coffee
-task = require 'gulp-task-promise'
+task = require 'gulp-task'
 gulp = require 'gulp'
 coffee = require 'gulp-coffee'
 gulp = require 'gulp'
@@ -198,7 +198,7 @@ task 'compile', ->
 #### Output
 ```console
 $ coffeegulp compile
-[gulp] Using gulpfile ~/Documents/GitProjects/gulp-task-promise/gulpfile.coffee
+[gulp] Using gulpfile ~/Documents/GitProjects/gulp-task/gulpfile.coffee
 [gulp] Starting 'compile'...
 [task] Running 'compile'
 [task] Finished 'compile' in 22.872 ms
@@ -208,7 +208,7 @@ $ coffeegulp compile
 ### Running Tasks in Series / Using Promises
 #### gulpfile.coffee
 ```coffee
-task = require 'gulp-task-promise'
+task = require 'gulp-task'
 gulp = require 'gulp'
 task.configure gulp
 Promise = require 'bluebird'
@@ -234,7 +234,7 @@ task 'b', -> new Promise (resolve, reject)->
 #### Output
 ```console
 $ coffeegulp series
-[gulp] Using gulpfile ~/Documents/GitProjects/gulp-task-promise/gulpfile.coffee
+[gulp] Using gulpfile ~/Documents/GitProjects/gulp-task/gulpfile.coffee
 [gulp] Starting 'series'...
 [task] Running 'series'
 [task] Running 'a'
@@ -250,7 +250,7 @@ We Are Done
 ### Running Tasks in Parallel / Using Promises
 #### gulpfile.coffee
 ```coffee
-task = require 'gulp-task-promise'
+task = require 'gulp-task'
 gulp = require 'gulp'
 task.configure gulp
 Promise = require 'bluebird'
@@ -277,7 +277,7 @@ task 'b', -> new Promise (resolve, reject)->
 #### Output
 ```console
 $ coffeegulp parallel
-[gulp] Using gulpfile ~/Documents/GitProjects/gulp-task-promise/gulpfile.coffee
+[gulp] Using gulpfile ~/Documents/GitProjects/gulp-task/gulpfile.coffee
 [gulp] Starting 'parallel'...
 [task] Running 'parallel'
 [task] Running 'a'

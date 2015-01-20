@@ -19,7 +19,7 @@
   };
 
   humanizeTime = function(timeArray) {
-    var f, limit, m, ndx, s, suffix, time;
+    var f, limit, m, ndx, numDecimals, s, suffix, time;
     f = function(n) {
       return Math.floor(n) % 1000;
     };
@@ -32,7 +32,8 @@
       time *= 1000;
       ndx++;
     }
-    return time.toFixed(3) + suffix[ndx];
+    numDecimals = Math.max(0, 4 - (parseInt(time) + '').length);
+    return time.toFixed(numDecimals) + suffix[ndx];
   };
 
   streamToPromise = function(stream) {
