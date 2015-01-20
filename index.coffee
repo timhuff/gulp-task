@@ -23,7 +23,8 @@ humanizeTime = (timeArray)->
 	while time < limit
 		time *= 1000
 		ndx++
-	time.toFixed(3)+suffix[ndx]
+	numDecimals = Math.max(0, 4-(parseInt(time)+'').length)
+	time.toFixed(numDecimals)+suffix[ndx]
 
 #creates a promise that resolves when a stream has ended
 streamToPromise = (stream)-> new Promise (resolve, reject)->
