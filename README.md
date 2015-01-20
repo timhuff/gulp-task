@@ -89,6 +89,13 @@ task 'build', ->
 	.then ->
 		somethingSynchronous()
 ```
+```coffee
+task 'watch', ->
+	task.run 'compile'
+	.then -># Note: The lack of task.run is acceptable because waiting for watch
+					#       to complete is not relevant to the resolution of the watch task
+		gulp.watch ['src/**/*.coffee'], -> task.run 'compile'
+```
 ###**Not Acceptable**
 ```coffee
 task 'build', ->
@@ -203,6 +210,40 @@ $ coffeegulp compile
 [task] Running 'compile'
 [task] Finished 'compile' in 22.872 ms
 [gulp] Finished 'compile' after 23 ms
+```
+---
+### Basic `gulp.watch`
+#### gulpfile.coffee
+```coffee
+task = require 'gulp-task'
+gulp = require 'gulp'
+coffee = require 'gulp-coffee'
+gulp = require 'gulp'
+task.configure gulp
+
+task 'compile', ->
+  gulp.src "src/**/*.coffee"
+  .pipe coffee()
+  .pipe gulp.dest 'bin'
+
+task 'watch', ->
+  task.run 'compile'
+  .then ->
+    gulp.watch ['src/**/*.coffee'], -> task.run 'compile'
+```
+#### Output
+```console
+$ coffeegulp watch
+[gulp] Using gulpfile ~/Documents/GitProjects/gulp-task/gulpfile.coffee
+[gulp] Starting 'watch'...
+[task] Running 'watch'
+[task] Running 'compile'
+[task] Finished 'compile' in 14.42 ms
+[task] Finished 'watch' in 20.66 ms
+[gulp] Finished 'watch' after 21 ms
+<MADE CHANGE>
+[task] Running 'compile'
+[task] Finished 'compile' in 3.800 ms
 ```
 ---
 ### Running Tasks in Series / Using Promises
