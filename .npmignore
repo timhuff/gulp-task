@@ -1,0 +1,4 @@
+*
+!bin
+!bin/index.js
+!package.json
