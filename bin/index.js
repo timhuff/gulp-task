@@ -51,9 +51,16 @@
 
   _task = function(name, cb) {
     if (_tasks[name] != null) {
-      throw new Error("Attempting to register the same task twice: '" + name + "'");
+      console.error("Error: This is the 2nd time the task ".red + name.green + " has been registered.".red);
+      console.error("The 1st registration was" + _tasks[name].registeredAt.yellow.bold);
+      console.error("The 2nd registration was" + (new Error().stack.split('\n')[2].replace(/^\s/, '')).yellow.bold);
+      process.exit(1);
+      return;
     }
-    _tasks[name] = cb;
+    _tasks[name] = {
+      cb: cb,
+      registeredAt: new Error().stack.split('\n')[2].replace(/^\s/, '')
+    };
     if (_gulp != null) {
       return _gulp.task(name, function() {
         return _task.run(name);
@@ -79,7 +86,7 @@
   _task.run = function(name) {
     var startTime, task;
     if (typeof name === "string") {
-      task = _tasks[name];
+      task = _tasks[name].cb;
       if (task == null) {
         throw new Error("Task Not Found: '" + name + "'");
       }
