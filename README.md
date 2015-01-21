@@ -19,11 +19,12 @@ Optionally, you can configure it to automatically register gulp tasks:
 ```coffee
 task.configure gulp
 ```
-## Usage
-This module has 3 functions. Here is the order that you'll most likely use them:
+## API
+This module has 4 functions. Here is the order that you'll most likely use them:
 - `task.configure`
 - `task`
 - `task.run`
+- `task.getTaskNames`
 
 ### task.configure(gulp)
 This makes it so that when you run task(name, cb), you also register the same task with gulp, enabling command line execution.
@@ -31,6 +32,8 @@ This makes it so that when you run task(name, cb), you also register the same ta
 This registers a new task to later be run via task.run. Dependencies are taken care of via promises.
 ### task.run(name|cb)
 This accepts either the name of a previously registered task or an anonymous function.
+### task.getTaskNames()
+This simply returns a sorted list the names of registered tasks.
 
 ## A Note About Not Running `task.configure`
 This module was written as a replacement for `gulp.task`. You're still free to use gulp.task directly but those tasks registered via `gulp.task` will not be visible via `task.run`. A usage where you don't run `task.configure gulp` might looks something like:
