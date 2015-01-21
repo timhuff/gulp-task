@@ -110,6 +110,6 @@ _task.getTaskNames = -> Object.keys(_tasks).sort()
 
 _task.stackLength = 1
 
-_task.toString -> 'gulp-task'
+_task.toString = -> 'gulp-task'
 
 module.exports = _task

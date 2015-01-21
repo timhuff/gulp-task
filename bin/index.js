@@ -144,9 +144,9 @@
 
   _task.stackLength = 1;
 
-  _task.toString(function() {
+  _task.toString = function() {
     return 'gulp-task';
-  });
+  };
 
   module.exports = _task;
 
