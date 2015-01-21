@@ -75,6 +75,9 @@ _task.run = (name)->
 		task = name
 		name = null
 	else
+		console.error 'Unexpected parameter'.red
+		end = _task.stackLength + 1
+		console.error new Error().stack.split('\n')[2..end].join('\n').green
 		throw new Error 'task.run expects either the name of a task registered with task or an anonymous function'
 
 	startTime = process.hrtime()

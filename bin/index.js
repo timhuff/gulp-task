@@ -88,7 +88,7 @@
   tag = "[" + "task".yellow + "]";
 
   _task.run = function(name) {
-    var startTime, task;
+    var end, startTime, task;
     if (typeof name === "string") {
       task = _tasks[name].callback;
       if (task == null) {
@@ -98,6 +98,9 @@
       task = name;
       name = null;
     } else {
+      console.error('Unexpected parameter'.red);
+      end = _task.stackLength + 1;
+      console.error(new Error().stack.split('\n').slice(2, +end + 1 || 9e9).join('\n').green);
       throw new Error('task.run expects either the name of a task registered with task or an anonymous function');
     }
     startTime = process.hrtime();
