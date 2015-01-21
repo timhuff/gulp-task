@@ -97,4 +97,6 @@ _task.configure = (gulp)->
 
 	_gulp = gulp
 
+_task.getTaskNames = -> Object.keys(_tasks).sort()
+
 module.exports = _task

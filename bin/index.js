@@ -128,6 +128,10 @@
     return _gulp = gulp;
   };
 
+  _task.getTaskNames = function() {
+    return Object.keys(_tasks).sort();
+  };
+
   module.exports = _task;
 
 }).call(this);
