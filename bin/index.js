@@ -51,6 +51,9 @@
   };
 
   _task = function(name, cb) {
+    if (_tasks[name] != null) {
+      throw new Error("Attempting to register the same task twice: '" + name + "'");
+    }
     _tasks[name] = cb;
     if (_gulp != null) {
       return _gulp.task(name, function() {
@@ -113,18 +116,16 @@
   };
 
   _task.configure = function(gulp) {
-    var name, task, _results;
-    _gulp = gulp;
-    if (gulp) {
-      _results = [];
+    var name, task;
+    if (_gulp == null) {
       for (name in _tasks) {
         task = _tasks[name];
-        _results.push(_gulp.task(name, function() {
+        _gulp.task(name, function() {
           return _task.run(name);
-        }));
+        });
       }
-      return _results;
     }
+    return _gulp = gulp;
   };
 
   module.exports = _task;

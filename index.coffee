@@ -34,6 +34,8 @@ streamToPromise = (stream)-> new Promise (resolve, reject)->
 
 #the main task registration method
 _task = (name, cb)->
+	if _tasks[name]?
+		throw new Error "Attempting to register the same task twice: '#{name}'"
 	_tasks[name] = cb
 	if _gulp?
 		_gulp.task name, -> _task.run(name)
@@ -88,10 +90,11 @@ _task.run = (name)->
 
 #configure gulp to automatically register tasks as gulp tasks
 _task.configure = (gulp)->
-	_gulp = gulp
-	#if there are pre-existing tasks when configure is called, register them
-	if gulp
+	#if there are pre-existing tasks, and configure hasn't been called yet, when configure is called, register them
+	if !_gulp?
 		for name, task of _tasks
 			_gulp.task name, -> _task.run(name)
+
+	_gulp = gulp
 
 module.exports = _task
