@@ -15,5 +15,3 @@ task 'watch', ->
 	task.run 'build'
 	.then ->
 		gulp.watch 'index.coffee', -> task.run 'build'
-
-task 'watch', ->

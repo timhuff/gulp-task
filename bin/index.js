@@ -50,16 +50,21 @@
   };
 
   _task = function(name, cb) {
+    var end, newRegStack, oldRegStack;
     if (_tasks[name] != null) {
-      console.error("Error: This is the 2nd time the task ".red + name.green + " has been registered.".red);
-      console.error("The 1st registration was" + _tasks[name].registeredAt.yellow.bold);
-      console.error("The 2nd registration was" + (new Error().stack.split('\n')[2].replace(/^\s/, '')).yellow.bold);
+      end = _task.debug ? Infinity : 3;
+      newRegStack = new Error().stack.split('\n').slice(2, +end + 1 || 9e9).join('\n');
+      oldRegStack = _tasks[name].registrationStack.split('\n').slice(2, +end + 1 || 9e9).join('\n');
+      console.error("The 1st registration was at:\n".yellow.bold + oldRegStack.green);
+      console.error("The 2nd registration was at:\n".yellow.bold + newRegStack.green);
+      console.error("Error: Task ".red + name.green + " has been declared twice.".red);
+      console.error('For full stack traces, add ' + 'task.debug = true' + ' before declaring tasks.'.gray);
       process.exit(1);
       return;
     }
     _tasks[name] = {
-      cb: cb,
-      registeredAt: new Error().stack.split('\n')[2].replace(/^\s/, '')
+      callback: cb,
+      registrationStack: new Error().stack
     };
     if (_gulp != null) {
       return _gulp.task(name, function() {
@@ -86,7 +91,7 @@
   _task.run = function(name) {
     var startTime, task;
     if (typeof name === "string") {
-      task = _tasks[name].cb;
+      task = _tasks[name].callback;
       if (task == null) {
         throw new Error("Task Not Found: '" + name + "'");
       }
