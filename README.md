@@ -1,6 +1,7 @@
 
 # gulp-task
 
+# Basic Info
 ## Preface
 This was written as a wrapper for gulp.task in order to get promise-based dependency management.
 
@@ -34,6 +35,8 @@ This registers a new task to later be run via task.run. Dependencies are taken c
 This accepts either the name of a previously registered task or an anonymous function.
 ### task.getTaskNames()
 This simply returns a sorted list the names of registered tasks.
+
+# Notes
 
 ## A Note About Not Running `task.configure`
 This module was written as a replacement for `gulp.task`. You're still free to use gulp.task directly but those tasks registered via `gulp.task` will not be visible via `task.run`. A usage where you don't run `task.configure gulp` might looks something like:
@@ -94,10 +97,10 @@ task 'build', ->
 ```
 ```coffee
 task 'watch', ->
-	task.run 'compile'
-	.then -># Note: The lack of task.run is acceptable because waiting for watch
-					#       to complete is not relevant to the resolution of the watch task
-		gulp.watch ['src/**/*.coffee'], -> task.run 'compile'
+  task.run 'compile'
+  .then -># Warning: This is over-simplified and potentially problematic.
+          # See "Watch Example" below for more info.
+    gulp.watch ['src/**/*.coffee'], -> task.run 'compile'
 ```
 ###**Not Acceptable**
 ```coffee
@@ -108,7 +111,28 @@ task 'build', ->
 		.pipe gulp.dest 'dest'
 ```
 
-## Examples
+## A Note About `.then -> gulp.watch`
+There's this issue that changes can happen pretty quickly and therefore the watch
+callback can happen in quick succession and cause a task to run over itself.
+In some circumstances, this doesn't really matter. But sometimes it does. Let's
+say you have a task called "refresh" that clears a directory and then compiles into it.
+If you're not careful, you'll end up clearing a directory while compiling into it.
+For this reason, it might be a good idea to wait for the previous task to complete
+before beginning a new one. This can be acheived like so:
+```coffee
+task 'watch', ->
+  readyToRefresh = Promise.resolve()
+  task.run 'refresh'
+  .then ->
+    gulp.watch ['src/**/*.coffee'], ->
+			readyToRefresh = readyToRefresh.then -> task.run 'refresh'
+```
+This will cause the new refresh task to wait for the existing one to complete. Unfortunately,
+this may cause a build-up of tasks if you're trigger happy on the cmd+s. Due to the
+concerns surrounding this topic, a `task.watch` wrapper might not be a bad idea.
+
+
+# Examples
 
 ---
 ## Semi-Realistic Stream Example
@@ -215,7 +239,7 @@ $ coffeegulp compile
 [gulp] Finished 'compile' after 23 ms
 ```
 ---
-### Basic `gulp.watch`
+### Basic (safe) `gulp.watch`
 #### gulpfile.coffee
 ```coffee
 task = require 'gulp-task'
@@ -230,9 +254,11 @@ task 'compile', ->
   .pipe gulp.dest 'bin'
 
 task 'watch', ->
+  readyToCompile = Promise.resolve()
   task.run 'compile'
   .then ->
-    gulp.watch ['src/**/*.coffee'], -> task.run 'compile'
+    gulp.watch ['src/**/*.coffee'], ->
+			readyToCompile = readyToCompile.then -> task.run 'compile'
 ```
 #### Output
 ```console
