@@ -1,4 +1,5 @@
 Promise = require 'bluebird'
+gulp = require 'gulp'
 require 'colors'
 
 #storage for tasks
