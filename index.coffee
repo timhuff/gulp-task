@@ -68,7 +68,7 @@ tag = "[#{"task".yellow}]"
 _task.run = (name)->
 	if typeof name == "string"
 		#lookup registered task
-		task = _tasks[name].callback
+		task = _tasks[name]?.callback
 		if !task?
 			throw new Error "Task Not Found: '#{name}'"
 	#anonymous function support

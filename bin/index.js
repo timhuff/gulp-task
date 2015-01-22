@@ -91,9 +91,9 @@
   tag = "[" + "task".yellow + "]";
 
   _task.run = function(name) {
-    var end, startTime, task;
+    var end, startTime, task, _ref;
     if (typeof name === "string") {
-      task = _tasks[name].callback;
+      task = (_ref = _tasks[name]) != null ? _ref.callback : void 0;
       if (task == null) {
         throw new Error("Task Not Found: '" + name + "'");
       }
