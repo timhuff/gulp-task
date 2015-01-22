@@ -109,6 +109,12 @@ _task.configure = (gulp)->
 
 	_gulp = gulp
 
+_task.watch = (glob, cb)->
+	ready = Promise.resolve()
+	gulp.watch glob, (e)->
+		ready = ready.then -> cb(e)
+	ready
+
 _task.getTaskNames = -> Object.keys(_tasks).sort()
 
 _task.stackLength = 1
