@@ -25,6 +25,7 @@ This module has 4 functions. Here is the order that you'll most likely use them:
 - `task.configure`
 - `task`
 - `task.run`
+- `task.watch`
 - `task.getTaskNames`
 
 ### task.configure(gulp)
@@ -111,14 +112,9 @@ task 'build', ->
 		.pipe gulp.dest 'dest'
 ```
 
-## A Note About `.then -> gulp.watch`
-There's this issue that changes can happen pretty quickly and therefore the watch
-callback can happen in quick succession and cause a task to run over itself.
-In some circumstances, this doesn't really matter. But sometimes it does. Let's
-say you have a task called "refresh" that clears a directory and then compiles into it.
-If you're not careful, you'll end up clearing a directory while compiling into it.
-For this reason, it might be a good idea to wait for the previous task to complete
-before beginning a new one. This can be acheived like so:
+## A Note About `task.watch`
+There was an issue that, in order to prevent a task from running on top of itself,
+it was necessary to do this:
 ```coffee
 task 'watch', ->
   readyToRefresh = Promise.resolve()
@@ -127,10 +123,14 @@ task 'watch', ->
     gulp.watch ['src/**/*.coffee'], ->
 			readyToRefresh = readyToRefresh.then -> task.run 'refresh'
 ```
-This will cause the new refresh task to wait for the existing one to complete. Unfortunately,
-this may cause a build-up of tasks if you're trigger happy on the cmd+s. Due to the
-concerns surrounding this topic, a `task.watch` wrapper might not be a bad idea.
-
+I've wrapped this functionality into a watch function. It's now possible to write this:
+```coffee
+task 'watch', ->
+  task.run 'refresh'
+  .then ->
+    task.watch ['src/**/*.coffee'], -> task.run 'refresh'
+```
+Each task.watch function call has a promise that will keep the callbacks in series (provided, of course, that they return promises).
 
 # Examples
 
@@ -239,7 +239,7 @@ $ coffeegulp compile
 [gulp] Finished 'compile' after 23 ms
 ```
 ---
-### Basic (safe) `gulp.watch`
+### Basic `task.watch`
 #### gulpfile.coffee
 ```coffee
 task = require 'gulp-task'
@@ -254,11 +254,9 @@ task 'compile', ->
   .pipe gulp.dest 'bin'
 
 task 'watch', ->
-  readyToCompile = Promise.resolve()
   task.run 'compile'
   .then ->
-    gulp.watch ['src/**/*.coffee'], ->
-			readyToCompile = readyToCompile.then -> task.run 'compile'
+    task.watch ['src/**/*.coffee'], -> task.run 'compile'
 ```
 #### Output
 ```console
