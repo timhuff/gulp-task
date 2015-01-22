@@ -18,7 +18,9 @@
   "dependencies": {
     "bluebird": "^2.8.1",
     "colors": "^1.0.3",
-    "gulp": "^3.8.10"
+    "gulp": "^3.8.10",
+    "gulp-foreach": "^0.1.0",
+    "gulp-watch": "^4.0.2"
   },
   "homepage": "https://github.com/timhuff/gulp-task",
   "bugs": {
