@@ -108,7 +108,7 @@ _task.configure = (gulp)->
 	#if there are pre-existing tasks, and configure hasn't been called yet, when configure is called, register them
 	if !_gulp?
 		for name, task of _tasks
-			_gulp.task name, -> _task.run(name)
+			_gulp.task name, -> _task.run(name).then gulpTaskCallback
 
 	_gulp = gulp
 
@@ -132,5 +132,7 @@ _task.getTaskNames = -> Object.keys(_tasks).sort()
 _task.stackLength = 1
 
 _task.toString = -> 'gulp-task'
+
+_task.gulpTaskCallback = ->
 
 module.exports = _task
