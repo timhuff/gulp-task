@@ -50,7 +50,7 @@ _task = (name, cb)->
 		callback:cb
 		registrationStack:new Error().stack
 	if _gulp?
-		_gulp.task name, -> _task.run(name)
+		_gulp.task name, -> _task.run(name).then _task.gulpTaskCallback
 
 #execute task and promisify the return value
 executeTask = (task)->
