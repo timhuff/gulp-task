@@ -32,7 +32,7 @@ humanizeTime = (timeArray)->
 streamToPromise = (stream)-> new Promise (resolve, reject)->
 	stream.on 'error', reject
 	for success in ['drain', 'finish', 'end', 'close',]
-		stream.on success, resolve
+		stream.on success, ->resolve stream
 
 #the main task registration method
 _task = (name, cb)->
