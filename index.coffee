@@ -112,10 +112,10 @@ _task.configure = (gulp)->
 
 	_gulp = gulp
 
-_task.watch = (glob, options, cb)->
+_task.watch = (glob, options={}, cb)->
 	if typeof options == 'function'
 		cb = options
-		options = null
+		options = {}
 	options.ignoreInitial ?= true
 	stream = watch glob, options
 	if cb?
