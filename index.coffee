@@ -1,5 +1,4 @@
 Promise = require 'bluebird'
-gulp = require 'gulp'
 watch = require 'gulp-watch'
 foreach = require 'gulp-foreach'
 require 'colors'
@@ -112,11 +111,18 @@ _task.configure = (gulp)->
 
 	_gulp = gulp
 
-_task.watch = (glob, cb)->
-	ready = Promise.resolve()
-	watch(glob).pipe foreach (stream, file)->
-		ready = ready.then -> cb(stream, file, file.event)
-		stream
+_task.watch = (glob, options, cb)->
+	if typeof options == 'function'
+		cb = options
+		options = null
+	options ?= ignoreInitial: true
+	stream = watch glob, options
+	if cb?
+		ready = Promise.resolve()
+		stream = stream.pipe foreach (stream, file)->
+			ready = ready.then -> cb(stream, file, file.event)
+			stream
+	stream
 
 _task.getTaskNames = -> Object.keys(_tasks).sort()
 
