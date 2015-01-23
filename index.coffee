@@ -135,4 +135,6 @@ _task.toString = -> 'gulp-task'
 
 _task.gulpTaskCallback = ->
 
+_task.promisifyStream = streamToPromise
+
 module.exports = _task
