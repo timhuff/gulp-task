@@ -1,6 +1,6 @@
 {
   "name": "gulp-task",
-  "version": "0.3.6",
+  "version": "1.0.0",
   "description": "A wrapper of gulp.task that enables promise-based dependency management",
   "main": "bin/index.js",
   "scripts": {
@@ -19,6 +19,7 @@
     "bluebird": "^2.8.1",
     "colors": "^1.0.3",
     "gulp": "^3.8.10",
+    "gulp-callback": "0.0.3",
     "gulp-foreach": "^0.1.0",
     "gulp-watch": "^4.0.2"
   },

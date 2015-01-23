@@ -1,6 +1,7 @@
 Promise = require 'bluebird'
 watch = require 'gulp-watch'
 foreach = require 'gulp-foreach'
+gcallback = require 'gulp-callback'
 gulp = require 'gulp'
 require 'colors'
 
@@ -30,10 +31,8 @@ humanizeTime = (timeArray)->
 	time.toFixed(numDecimals)+suffix[ndx]
 
 #creates a promise that resolves when a stream has ended
-streamToPromise = (stream)-> new Promise (resolve, reject)->
-	stream.on 'error', reject
-	for success in ['drain', 'finish', 'end', 'close',]
-		stream.on success, ->resolve stream
+streamToPromise = (stream)-> new Promise (resolve)->
+	stream.pipe gcallback -> resolve stream
 
 #the main task registration method
 _task = (name, cb)->

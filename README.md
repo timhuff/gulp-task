@@ -3,6 +3,9 @@
 
 # Basic Info
 ## Preface
+
+This module is currently under heavy development. If you include it in your project, lock down the version number.
+
 This was written as a wrapper for gulp.task in order to get promise-based dependency management.
 
 The documentation and source is written in coffeescript but it should work with vanilla gulp just the same.
@@ -58,9 +61,7 @@ Regardless of if you're running an anonymous function or calling a registered on
 ### Case 1: Task Returns a Promise
 This is simple enough. `task.run` simply returns the promise.
 ### Case 2: Task Returns a Stream
-`task.run` creates a new `Promise` and listens to the stream.  
-It will reject the promise if the stream emits an `'error'` event.  
-It will resolve the promise if the stream emits any of the following events: `['drain', 'finish', 'end', 'close',]`
+`task.run` returns a promise that resolves via `.pipe gulpCallback -> resolve stream`
 ### Case 3: Task Returns Something Else
 In this event, `task.run` simply returns a resolved promise after running the task.
 
