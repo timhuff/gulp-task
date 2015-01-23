@@ -1,6 +1,7 @@
 Promise = require 'bluebird'
 watch = require 'gulp-watch'
 foreach = require 'gulp-foreach'
+gulp = require 'gulp'
 require 'colors'
 
 #storage for tasks
@@ -123,6 +124,8 @@ _task.watch = (glob, options, cb)->
 			ready = ready.then -> cb(stream, file, file.event)
 			stream
 	stream
+
+_task.watchedSrc = watch
 
 _task.getTaskNames = -> Object.keys(_tasks).sort()
 
