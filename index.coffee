@@ -116,7 +116,7 @@ _task.watch = (glob, options, cb)->
 	if typeof options == 'function'
 		cb = options
 		options = null
-	options ?= ignoreInitial: true
+	options.ignoreInitial ?= true
 	stream = watch glob, options
 	if cb?
 		ready = Promise.resolve()
