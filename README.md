@@ -113,26 +113,6 @@ task 'build', ->
 		.pipe gulp.dest 'dest'
 ```
 
-## A Note About `task.watch`
-There was an issue that, in order to prevent a task from running on top of itself,
-it was necessary to do this:
-```coffee
-task 'watch', ->
-  readyToRefresh = Promise.resolve()
-  task.run 'refresh'
-  .then ->
-    gulp.watch ['src/**/*.coffee'], ->
-			readyToRefresh = readyToRefresh.then -> task.run 'refresh'
-```
-I've wrapped this functionality into a watch function. It's now possible to write this:
-```coffee
-task 'watch', ->
-  task.run 'refresh'
-  .then ->
-    task.watch ['src/**/*.coffee'], -> task.run 'refresh'
-```
-Each task.watch function call has a promise that will keep the callbacks in series (provided, of course, that they return promises).
-
 # Examples
 
 ---
