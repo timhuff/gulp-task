@@ -119,7 +119,7 @@ _task.watch = (glob, options={}, cb)->
 		null
 	pipe: -> throw new Error 'task.watch no longer returns a stream. Functionality has moved from the gulp-watch package to the gulp.watch function in order to avoid segmentation faults for large projects. If your project is small and you wish the old functionality, lock your version number down to 1.0.0'
 
-_task.watchedSrc = watch
+_task.watchedSrc = _task.watch
 
 _task.getTaskNames = -> Object.keys(_tasks).sort()
 
