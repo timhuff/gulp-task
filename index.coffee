@@ -1,5 +1,4 @@
 Promise = require 'bluebird'
-watch = require 'gulp-watch'
 foreach = require 'gulp-foreach'
 gcallback = require 'gulp-callback'
 gulp = require 'gulp'
@@ -115,14 +114,10 @@ _task.watch = (glob, options={}, cb)->
 	if typeof options == 'function'
 		cb = options
 		options = {}
-	options.ignoreInitial ?= true
-	stream = watch glob, options
-	if cb?
-		ready = Promise.resolve()
-		stream = stream.pipe foreach (stream, file)->
-			ready = ready.then -> cb(stream, file, file.event)
-			stream
-	stream
+	gulp.watch glob, options, (event)->
+		cb gulp.src(event.path), event.path, event
+		null
+	null
 
 _task.watchedSrc = watch
 
