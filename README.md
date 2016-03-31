@@ -4,13 +4,9 @@
 # Basic Info
 ## Preface
 
-This module is currently under heavy development. If you include it in your project, lock down the version number.
-
 This was written as a wrapper for gulp.task in order to get promise-based dependency management.
 
 The documentation and source is written in coffeescript but it should work with vanilla gulp just the same.
-
-Unfortunately, I don't have time to write tests at the moment.
 
 ## Installation
 ```shell
