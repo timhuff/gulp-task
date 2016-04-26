@@ -19,8 +19,8 @@
     "bluebird": "^2.8.1",
     "colors": "^1.0.3",
     "gulp": "^3.8.10",
-    "gulp-callback": "0.0.3",
-    "gulp-foreach": "^0.1.0"
+    "gulp-foreach": "^0.1.0",
+    "gulp-next": "^1.0.4"
   },
   "homepage": "https://github.com/timhuff/gulp-task",
   "bugs": {
