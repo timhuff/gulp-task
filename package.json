@@ -1,6 +1,6 @@
 {
   "name": "gulp-task",
-  "version": "2.0.8",
+  "version": "2.1.0",
   "description": "A wrapper of gulp.task that enables promise-based dependency management",
   "main": "bin/index.js",
   "scripts": {
